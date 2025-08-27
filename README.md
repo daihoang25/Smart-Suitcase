@@ -3,14 +3,10 @@
 ## 📖 Overview
 The **Smart Suitcase** project was developed to provide a hands-free travel experience by enabling autonomous tracking and obstacle avoidance. Through the integration of computer vision, fuzzy control, and embedded systems, the suitcase is capable of following its owner in real-time, avoiding collisions, and preventing loss in crowded environments such as airports. This work was carried out as part of a graduation thesis at **Ho Chi Minh City University of Technology, Faculty of Electrical & Electronics Engineering**, under the supervision of Assoc. Prof. Huynh Thai Hoang.  
 
-![Smart Suitcase Concept](figures/concept.png)
-
 ---
 
 ## 🎯 Objectives
 The motivation behind this project was to design a cost-effective smart suitcase that is both user-friendly and technically efficient. Unlike many commercial products, the prototype emphasizes affordability while still achieving real-time tracking and autonomous navigation. The system relies on the Intel Movidius Neural Compute Stick for owner detection, an ARM-based controller for motor control, and an Android application with a web interface for seamless user interaction. The ultimate goal was to deliver a practical, low-cost solution that surpasses the limitations of existing smart luggage on the market.  
-
-![Objective Diagram](figures/objectives.png)
 
 ---
 
@@ -33,6 +29,41 @@ The system demonstrated reliable real-time tracking under different conditions, 
 ![Android + Server Interface](figures/android_server.png)
 
 ---
+
+## 🤖 Deep Learning and Intel Movidius Acceleration
+At the heart of the Smart Suitcase’s autonomous tracking system is a deep learning–based object detection pipeline. We implemented the **MobileNet-SSD (Single Shot MultiBox Detector)** architecture, chosen for its excellent trade-off between accuracy and efficiency on embedded platforms.  
+
+![Deep Learning with Movidius](figures/mobilenet.png)
+
+**MobileNet** provides the backbone network, using **depthwise separable convolutions** to drastically reduce the number of parameters while maintaining competitive performance. **SSD (Single Shot Detector)** then enables fast multi-object detection in a single forward pass, making it well suited for real-time applications. The combined **MobileNet-SSD** framework is therefore lightweight, fast, and accurate — a critical requirement for running on mobile hardware.  
+
+To overcome the limitations of the Raspberry Pi in handling deep learning workloads, we integrated the **Intel Movidius Neural Compute Stick 2 (NCS2)**. This device contains a dedicated **Vision Processing Unit (VPU)** optimized for convolutional neural networks, enabling the suitcase to achieve real-time inference while keeping power consumption low. The Raspberry Pi focuses on system integration tasks such as motor control, sensor communication, and server interaction, while the Movidius offloads the heavy computation of the MobileNet-SSD model.  
+
+The deep learning model was trained using Google Colab with transfer learning and then deployed on the Raspberry Pi with NCS2 acceleration. This combination allowed the suitcase to track its owner in real time under challenging conditions, including rotation, partial occlusion, and varying distances. It demonstrates how modern embedded AI accelerators can bring advanced computer vision into practical consumer devices.  
+
+![Deep Learning with Movidius](figures/movidius.png)
+
+
+
+## 📡 Ultrasonic Sensor Control
+In addition to vision-based tracking, the smart suitcase relies on ultrasonic sensors to measure distances and avoid collisions. Each sensor operates by emitting an ultrasonic pulse when triggered, then measuring the time taken for the echo to return. From this elapsed time, the system calculates the distance using the relation:
+
+\[
+\text{distance (cm)} = \frac{\text{elapsed time} \times 0.0001 \times 340}{2}
+\]
+
+This mechanism enables the suitcase to detect nearby obstacles in real time. However, ultrasonic sensors are not always reliable: they can fail to detect objects with irregular surfaces, thin edges, or materials that absorb or scatter sound waves. In these cases, the suitcase might underestimate or completely miss an obstacle.  
+
+To mitigate this issue, the system employs multiple sensors arranged around the suitcase and integrates their readings with a fuzzy logic controller. This redundancy allows the suitcase to make safer navigation decisions even when one or more sensors fail to report accurate data. In future work, the ultrasonic sensing module could be combined with additional sensing modalities, such as infrared or depth cameras, to further enhance robustness.  
+
+![Ultrasonic Sensor](figures/ultrasonic_sensor.png)
+
+This mechanism enables the suitcase to detect nearby obstacles in real time. Although the method is computationally lightweight and effective in many scenarios, ultrasonic sensors can occasionally fail in detecting certain surfaces or angles. To address this limitation, the suitcase integrates multiple sensors and combines their readings with the fuzzy logic controller, ensuring more robust navigation even in crowded environments.  
+
+![Ultrasonic Sensor](figures/ultrasonic_sensor_2.png)
+
+---
+
 
 ## ✅ Merits and Limitations
 The project successfully demonstrated the feasibility of building a smart suitcase that could track its owner in real-time while also offering a server-assisted alarm system to prevent loss. The combination of auto and manual modes gave users greater flexibility, and the integration of fuzzy control improved tracking robustness. However, some limitations were observed. The system struggled in low-light environments due to visual detection constraints, and it required a Wi-Fi connection to update data to the server. Movement speed was slower than expected, and noise sometimes appeared during obstacle detection, affecting overall performance.  
