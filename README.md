@@ -8,12 +8,14 @@ The **Smart Suitcase** project was developed to provide a hands-free travel expe
 ## 🎯 Objectives
 The motivation behind this project was to design a cost-effective smart suitcase that is both user-friendly and technically efficient. Unlike many commercial products, the prototype emphasizes affordability while still achieving real-time tracking and autonomous navigation. The system relies on the Intel Movidius Neural Compute Stick for owner detection, an ARM-based controller for motor control, and an Android application with a web interface for seamless user interaction. The ultimate goal was to deliver a practical, low-cost solution that surpasses the limitations of existing smart luggage on the market.  
 
+![System Overview](figures/system_overview.png)  
+
 ---
 
 ## ⚙️ Methodology
 The methodology combines both hardware and software design into a unified system. On the software side, a deep learning model was trained to perform logo-based object detection, enabling the suitcase to identify and track its owner. This detection process was enhanced with a fuzzy logic controller, which refined the tracking response and improved obstacle avoidance. On the hardware side, an ARM-based controller was responsible for driving the motors and handling communication with peripheral sensors. Ultrasonic sensors were integrated for real-time distance measurement, while Node.js-based server processes ensured smooth data transfer through TCP/IP and SPI protocols. To support user interaction, a mobile Android application was built to notify the owner in case of lost tracking, complemented by a web interface for non-Android users.  
 
-![System Overview](figures/system_overview.png)  
+![System Overview](figures/hardware.png)  
 ![Training Process](figures/training_process.png)  
 ![Motor Control](figures/motor_control.png)  
 ![Android Application](figures/android_app.png)
