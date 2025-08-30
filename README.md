@@ -83,4 +83,4 @@ This project was carried out by **Hoang Trong Dai (1510633)** and **Ly Kim Tien 
 ---
 
 ## 📅 Date
-**05/03/2022** – Ho Chi Minh City University of Technology, Department of Control Engineering & Automation
+**06/2019** – Ho Chi Minh City University of Technology, Department of Control Engineering & Automation
